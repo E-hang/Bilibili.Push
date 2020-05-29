@@ -37,6 +37,9 @@
     <NoWarn>618,1591;3001;IDE1006</NoWarn>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.8\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
@@ -77,6 +80,7 @@
     <Compile Include="IniConfig\Utilities\MathUtils.cs" />
     <Compile Include="IniConfig\Utilities\MiscellaneousUtils.cs" />
     <Compile Include="IniConfig\Utilities\ReflectionUtils.cs" />
+    <Compile Include="Log4net\Log4Helper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SQLite\AssemblySourceIdAttribute.cs" />
     <Compile Include="SQLite\AssemblySourceTimeStampAttribute.cs" />
@@ -129,6 +133,10 @@
     <Compile Include="SQLite\UnsafeNativeMethods.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Log4net\log4net.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="packages.config" />
     <None Include="SQLite\Configurations\System.Data.SQLite.dll.config" />
     <None Include="SQLite\obj\Debug\netstandard2.0\System.Data.SQLite.NetStandard20.assets.cache" />
     <None Include="SQLite\obj\Debug\netstandard2.0\System.Data.SQLite.NetStandard20.csproj.CoreCompileInputs.cache" />

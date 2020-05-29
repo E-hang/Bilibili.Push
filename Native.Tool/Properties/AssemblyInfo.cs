@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Native.Tool")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany ("Jie2GG")]
-[assembly: AssemblyProduct ("(Native)原生应用开发框架工具集")]
-[assembly: AssemblyCopyright ("Copyright © Microsoft 2018")]
+[assembly: AssemblyCompany("Jie2GG")]
+[assembly: AssemblyProduct("(Native)原生应用开发框架工具集")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2018")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -32,5 +32,6 @@ using System.Runtime.InteropServices;
 // 可以指定所有值，也可以使用以下所示的 "*" 预置版本号和修订号
 //通过使用 "*"，如下所示:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion ("3.3.2.0501")]
-[assembly: AssemblyFileVersion ("3.3.2.0501")]
+[assembly: AssemblyVersion("3.3.2.0501")]
+[assembly: AssemblyFileVersion("3.3.2.0501")]
+[assembly: log4net.Config.XmlConfigurator(ConfigFile = "Log4net/log4net.config", ConfigFileExtension = "config", Watch = true)]
