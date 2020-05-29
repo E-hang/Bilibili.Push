@@ -5,10 +5,10 @@
 {
 	"ret": 1,
 	"apiver": 9,
-	"name": "酷Q样例应用 for C#",
-	"version": "1.0.0",
+	"name": "B站动态推送",
+	"version": "2.0.0",
 	"version_id": 1,
-	"author": "JieGG",
+	"author": "Hang",
 	"description": "酷Q样例应用(V9应用机制)",
 	"event": [
 		{
