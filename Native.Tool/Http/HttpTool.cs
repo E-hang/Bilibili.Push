@@ -1,10 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 using System.Web;
+using System.Threading;
 
 namespace Native.Tool.Http
 {
@@ -62,6 +64,9 @@ namespace Native.Tool.Http
         /// <returns></returns>
         public static string HttpGet(string url)
         {
+            // 暂停1秒
+            Thread.Sleep(1000);
+
             //ServicePointManager.ServerCertificateValidationCallback = new RemoteCertificateValidationCallback(CheckValidationResult);
             Encoding encoding = Encoding.UTF8;
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);

@@ -48,6 +48,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -58,11 +61,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common.cs" />
     <Compile Include="Event\Event_AppDisable.cs" />
     <Compile Include="Event\Event_AppEnable.cs" />
+    <Compile Include="Event\Event_CheckDatabase.cs" />
     <Compile Include="Event\Event_CQExit.cs" />
     <Compile Include="Event\Event_CQStartup.cs" />
+    <Compile Include="Event\Event_GetDynamicInform.cs" />
+    <Compile Include="Event\Event_GetVideoInformation.cs" />
     <Compile Include="Event\Event_GroupMessage.cs" />
+    <Compile Include="Json\Json_UpInformation.cs" />
+    <Compile Include="Json\Json_VideoInformation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -74,6 +83,9 @@
       <Project>{0ca93eb9-4e25-46c6-94d2-0f97137a1606}</Project>
       <Name>Native.Tool</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

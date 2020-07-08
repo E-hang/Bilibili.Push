@@ -18,6 +18,7 @@ namespace me.cqp.hang.bilibilipush.Code.Event
         /// <param name="e">事件的附加参数</param>
         public void AppDisable(object sender, CQAppDisableEventArgs e)
         {
+            Event_AppEnable.timer.Stop();
             Log4Helper.Info("B站特别关注小插件已停用");
         }
     }

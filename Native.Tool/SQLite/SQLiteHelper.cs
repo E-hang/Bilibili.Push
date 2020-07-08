@@ -15,9 +15,9 @@ namespace Native.Tool.SQLite
         /// </summary>
         public static SQLiteConnection dbConnection;
 
-        /// <summary>
-        /// SQL命令定义
-        /// </summary>
+        ///// <summary>
+        ///// SQL命令定义
+        ///// </summary>
         //private static SQLiteCommand dbCommand;
 
         /// <summary>
@@ -25,15 +25,15 @@ namespace Native.Tool.SQLite
         /// </summary>
         private static SQLiteDataReader dataReader;
 
-        /// <summary>
-        /// 数据库连接字符串定义
-        /// </summary>
+        ///// <summary>
+        ///// 数据库连接字符串定义
+        ///// </summary>
         //private SQLiteConnectionStringBuilder dbConnectionstr;
 
-        /// <summary>
-        /// 构造函数
-        /// </summary>
-        /// <param name="connectionString">连接SQLite库字符串</param>
+        ///// <summary>
+        ///// 构造函数
+        ///// </summary>
+        ///// <param name="connectionString">连接SQLite库字符串</param>
         /*
         public SqLiteHelper(string connectionString)
         {
@@ -54,6 +54,25 @@ namespace Native.Tool.SQLite
             }
         }
         */
+
+        /// <summary>
+        /// 创建数据库文件
+        /// </summary>
+        /// <param name="DBFilePath"></param>
+        /// <returns></returns>
+        public static Boolean NewDbFile(string DBFilePath)
+        {
+            try
+            {
+                SQLiteConnection.CreateFile(DBFilePath);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Log4Helper.Error("新建数据库文件" + DBFilePath + "失败：" + ex.Message);
+                throw new Exception("新建数据库文件" + DBFilePath + "失败：" + ex.Message);
+            }
+        }
 
         /// <summary>
         /// 执行SQL命令
@@ -88,9 +107,9 @@ namespace Native.Tool.SQLite
             return dataReader;
         }
 
-        /// <summary>
-        /// 关闭数据库连接
-        /// </summary>
+        ///// <summary>
+        ///// 关闭数据库连接
+        ///// </summary>
         /*
         public static void CloseConnection()
         {
@@ -115,6 +134,46 @@ namespace Native.Tool.SQLite
 
         }
         */
+
+        /// <summary>
+        /// 检查是否存在
+        /// </summary>
+        /// <param name="tableName">数据表名称</param>
+        /// <returns>返回:是/否</returns>
+        public static bool CheckTable(string tableName)
+        {
+            try
+            {
+                Log4Helper.Debug("调用CheckTable结束");
+                string queryString = "SELECT count(*) FROM sqlite_master WHERE type= 'table' AND name = '" + tableName + "' ;";
+                Log4Helper.Debug("sql语句：" + queryString);
+                using (SQLiteConnection conn = new SQLiteConnection("Data Source=BilibiliPush.db"))
+                {
+                    conn.Open();
+                    using (SQLiteCommand cmd = new SQLiteCommand(queryString, conn))
+                    {
+                        dataReader = cmd.ExecuteReader();
+                        while (dataReader.Read())
+                        {
+                            if (dataReader[0].ToString() != "0")
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                    dataReader.Close();
+                    dataReader.Dispose();
+                    conn.Close();
+                    conn.Dispose();
+                }
+            }
+            catch (Exception e)
+            {
+                Log4Helper.Error(e.Message);
+            }
+            Log4Helper.Debug("调用CheckTable结束");
+            return false;
+        }
 
         /// <summary>
         /// 读取整张数据表
@@ -212,7 +271,10 @@ namespace Native.Tool.SQLite
                         }
                         Log4Helper.Debug("调用CountRows结束");
                     }
+                    dataReader.Close();
+                    dataReader.Dispose();
                     conn.Close();
+                    conn.Dispose();
                 }
             }
             catch (Exception e)
@@ -280,22 +342,43 @@ namespace Native.Tool.SQLite
         /// <returns>The values.</returns>
         /// <param name="tableName">数据表名称</param>
         /// <param name="values">插入的数值</param>
-        public static SQLiteDataReader InsertValues(string tableName, string[] values)
+        public static void InsertValues(string tableName, string[] values)
         {
-            //获取数据表中字段数目
-            int fieldCount = ReadFullTable(tableName).FieldCount;
-            //当插入的数据长度不等于字段数目时引发异常
-            if (values.Length != fieldCount)
+            ////获取数据表中字段数目
+            //int fieldCount = ReadFullTable(tableName).FieldCount;
+            ////当插入的数据长度不等于字段数目时引发异常
+            //if (values.Length != fieldCount)
+            //{
+            //    throw new SQLiteException("values.Length!=fieldCount");
+            //}
+            try
             {
-                throw new SQLiteException("values.Length!=fieldCount");
+                Log4Helper.Debug("调用InsertValues开始");
+                string queryString = "INSERT INTO " + tableName + " VALUES (" + "'" + values[0] + "'";
+                for (int i = 1; i < values.Length; i++)
+                {
+                    queryString += ", " + "'" + values[i] + "'";
+                }
+                queryString += " )";
+                Log4Helper.Debug("sql语句：" + queryString);
+                using (SQLiteConnection conn = new SQLiteConnection("Data Source=BilibiliPush.db"))
+                {
+                    conn.Open();
+                    using (SQLiteCommand cmd = new SQLiteCommand(queryString, conn))
+                    {
+                        dataReader = cmd.ExecuteReader();
+                    }
+                    dataReader.Close();
+                    dataReader.Dispose();
+                    conn.Close();
+                    conn.Dispose();
+                }
             }
-            string queryString = "INSERT INTO " + tableName + " VALUES (" + "'" + values[0] + "'";
-            for (int i = 1; i < values.Length; i++)
+            catch (Exception e)
             {
-                queryString += ", " + "'" + values[i] + "'";
+                Log4Helper.Error(e.Message);
             }
-            queryString += " )";
-            return ExecuteQuery(queryString);
+            Log4Helper.Debug("调用InsertValues结束");
         }
 
         /// <summary>
@@ -347,7 +430,7 @@ namespace Native.Tool.SQLite
         /// <param name="key">关键字</param>
         /// <param name="value">关键字对应的值</param>
         /// <param name="operation">运算符：=,<,>,...，默认“=”</param>
-        public SQLiteDataReader UpdateValues(string tableName, string[] colNames, string[] colValues, string key, string value, string operation)
+        public static SQLiteDataReader UpdateValues(string tableName, string[] colNames, string[] colValues, string key, string value, string operation)
         {
             // operation="=";  //默认
             //当字段名称和字段数值不对应时引发异常
